@@ -1,6 +1,5 @@
 from enum import Enum
-from tkinter import *
-from tkinter import ttk
+import pygame, sys
 
 ROW_NUM = 8
 COL_NUM = 8
@@ -59,13 +58,33 @@ def initial_position():
     position[7][5] = WhitePiece.BISHOP
     position[7][6] = WhitePiece.KNIGHT
     position[7][7] = WhitePiece.ROOK
-    print(position)
+    # print(position)
+
+def create_board():
+    """Create chessboard"""
+    board_dark = (209,139,70)
+    board_light = (254,206,158)
+    for i in range(0, 16):
+        board_tile1 = pygame.Rect(100 + (i % 4)*150, 50 + (int(i / 4))*150, 75, 75)
+        pygame.draw.rect(board, board_light, board_tile1)
+        board_tile2 = pygame.Rect(175 + (i % 4)*150, 125 + (int(i / 4))*150, 75, 75)
+        pygame.draw.rect(board, board_light, board_tile2)
+        board_tile3 = pygame.Rect(175 + (i % 4)*150, 50 + (int(i / 4))*150, 75, 75)
+        pygame.draw.rect(board, board_dark, board_tile3)
+        board_tile4 = pygame.Rect(100 + (i % 4)*150, 125 + (int(i / 4))*150, 75, 75)
+        pygame.draw.rect(board, board_dark, board_tile4)
 
 initial_position()
 
-root = Tk()
-frm = ttk.Frame(root, padding=300)
-frm.grid()
-ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
-ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
-root.mainloop()
+pygame.init()
+board = pygame.display.set_mode((800, 700))
+pygame.display.set_caption("Chess!")
+playing = True
+while playing:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            playing = False
+    #Make chessboard
+    create_board()
+    
+    pygame.display.update()

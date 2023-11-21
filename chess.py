@@ -74,9 +74,6 @@ def create_board():
         board_tile4 = pygame.Rect(100 + (i % 4)*150, 125 + (int(i / 4))*150, 75, 75)
         pygame.draw.rect(board, board_dark, board_tile4)
 
-initial_position()
-
-pygame.init()
 board = pygame.display.set_mode((800, 700))
 pygame.display.set_caption("Chess!")
 playing = True
@@ -86,5 +83,5 @@ while playing:
             playing = False
     #Make chessboard
     create_board()
-    
+    initial_position()
     pygame.display.update()

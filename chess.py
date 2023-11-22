@@ -3,6 +3,7 @@ import pygame, sys
 
 ROW_NUM = 8
 COL_NUM = 8
+DEFAULT_PIECE_SIZE = (55, 65)
 
 position = [[0 for i in range(8)] for i in range(8)]
 
@@ -75,6 +76,10 @@ def create_board():
         pygame.draw.rect(board, board_dark, board_tile4)
 
 board = pygame.display.set_mode((800, 700))
+
+rook_white = pygame.image.load("Images/rook_white.png")
+rook_white = pygame.transform.scale(rook_white, DEFAULT_PIECE_SIZE)
+
 pygame.display.set_caption("Chess!")
 playing = True
 while playing:
@@ -83,5 +88,6 @@ while playing:
             playing = False
     #Make chessboard
     create_board()
+    board.blit(rook_white, (109.5, 55))
     initial_position()
     pygame.display.update()

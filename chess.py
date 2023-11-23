@@ -1,9 +1,10 @@
 from enum import Enum
-import pygame, sys
+import pygame
 
 ROW_NUM = 8
 COL_NUM = 8
-DEFAULT_PIECE_SIZE = (55, 65)
+DEFAULT_PIECE_SIZE = (55, 57)
+PAWN_DEFAULT_SIZE = (48, 53)
 
 position = [[0 for i in range(8)] for i in range(8)]
 
@@ -77,8 +78,42 @@ def create_board():
 
 board = pygame.display.set_mode((800, 700))
 
+pawn_white = pygame.image.load("Images/pawn_white.png")
+pawn_white = pygame.transform.scale(pawn_white, PAWN_DEFAULT_SIZE)
 rook_white = pygame.image.load("Images/rook_white.png")
-rook_white = pygame.transform.scale(rook_white, DEFAULT_PIECE_SIZE)
+rook_white = pygame.transform.scale(rook_white, PAWN_DEFAULT_SIZE)
+knight_white = pygame.image.load("Images/knight_white.png")
+knight_white = pygame.transform.scale(knight_white, DEFAULT_PIECE_SIZE)
+bishop_white = pygame.image.load("Images/bishop_white.png")
+bishop_white = pygame.transform.scale(bishop_white, DEFAULT_PIECE_SIZE)
+queen_white = pygame.image.load("Images/queen_white.png")
+queen_white = pygame.transform.scale(queen_white, DEFAULT_PIECE_SIZE)
+king_white = pygame.image.load("Images/king_white.png")
+king_white = pygame.transform.scale(king_white, DEFAULT_PIECE_SIZE)
+
+pawn_black = pygame.image.load("Images/pawn_black.png")
+pawn_black = pygame.transform.scale(pawn_black, PAWN_DEFAULT_SIZE)
+rook_black = pygame.image.load("Images/rook_black.png")
+rook_black = pygame.transform.scale(rook_black, PAWN_DEFAULT_SIZE)
+knight_black = pygame.image.load("Images/knight_black.png")
+knight_black = pygame.transform.scale(knight_black, DEFAULT_PIECE_SIZE)
+bishop_black = pygame.image.load("Images/bishop_black.png")
+bishop_black = pygame.transform.scale(bishop_black, DEFAULT_PIECE_SIZE)
+queen_black = pygame.image.load("Images/queen_black.png")
+queen_black = pygame.transform.scale(queen_black, DEFAULT_PIECE_SIZE)
+king_black = pygame.image.load("Images/king_black.png")
+king_black = pygame.transform.scale(king_black, DEFAULT_PIECE_SIZE)
+
+def board_location_to_coordinates(x_location, y_location, adjustment=False):
+    """Converts the board location (a1) to coordinates on the grid"""
+    x_coordinate = x_location * 75 + 109.5
+    y_coordinate = y_location * 75 + 58
+    if adjustment:
+        x_coordinate += 4
+        y_coordinate += 3
+    return (x_coordinate, y_coordinate)
+
+initial_position()
 
 pygame.display.set_caption("Chess!")
 playing = True
@@ -88,6 +123,33 @@ while playing:
             playing = False
     #Make chessboard
     create_board()
-    board.blit(rook_white, (109.5, 55))
-    initial_position()
+    # board.blit(rook_white, board_location_to_coordinates(0, 0))
+    # board.blit(rook_white, board_location_to_coordinates(7, 0))
+    for i in range(0, 8):
+        for j in range(0, 8):
+            if position[i][j] != 0:
+                if position[i][j] == WhitePiece.PAWN:
+                    board.blit(pawn_white, board_location_to_coordinates(j, i, True))
+                if position[i][j] == WhitePiece.ROOK:
+                    board.blit(rook_white, board_location_to_coordinates(j, i, True))
+                if position[i][j] == WhitePiece.KNIGHT:
+                    board.blit(knight_white, board_location_to_coordinates(j, i))
+                if position[i][j] == WhitePiece.BISHOP:
+                    board.blit(bishop_white, board_location_to_coordinates(j, i))
+                if position[i][j] == WhitePiece.QUEEN:
+                    board.blit(queen_white, board_location_to_coordinates(j, i))
+                if position[i][j] == WhitePiece.KING:
+                    board.blit(king_white, board_location_to_coordinates(j, i))
+                if position[i][j] == BlackPiece.PAWN:
+                    board.blit(pawn_black, board_location_to_coordinates(j, i, True))
+                if position[i][j] == BlackPiece.ROOK:
+                    board.blit(rook_black, board_location_to_coordinates(j, i, True))
+                if position[i][j] == BlackPiece.KNIGHT:
+                    board.blit(knight_black, board_location_to_coordinates(j, i))
+                if position[i][j] == BlackPiece.BISHOP:
+                    board.blit(bishop_black, board_location_to_coordinates(j, i))
+                if position[i][j] == BlackPiece.QUEEN:
+                    board.blit(queen_black, board_location_to_coordinates(j, i))
+                if position[i][j] == BlackPiece.KING:
+                    board.blit(king_black, board_location_to_coordinates(j, i))
     pygame.display.update()

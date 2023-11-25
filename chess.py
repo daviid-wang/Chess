@@ -4,9 +4,7 @@ import pygame
 ROW_NUM = 8
 COL_NUM = 8
 DEFAULT_PIECE_SIZE = (55, 57)
-PAWN_DEFAULT_SIZE = (48, 53)
-
-position = [[0 for i in range(8)] for i in range(8)]
+PAWN_DEFAULT_SIZE = (47, 53)
 
 class WhitePiece(Enum):
     ROOK    = "R"
@@ -24,7 +22,7 @@ class BlackPiece(Enum):
     KING    = "K"
     PAWN    = "P"
 
-def initial_position():
+def initial_position(position):
     position[0][0] = BlackPiece.ROOK
     position[0][1] = BlackPiece.KNIGHT
     position[0][2] = BlackPiece.BISHOP
@@ -113,18 +111,8 @@ def board_location_to_coordinates(x_location, y_location, adjustment=False):
         y_coordinate += 3
     return (x_coordinate, y_coordinate)
 
-initial_position()
-
-pygame.display.set_caption("Chess!")
-playing = True
-while playing:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            playing = False
-    #Make chessboard
-    create_board()
-    # board.blit(rook_white, board_location_to_coordinates(0, 0))
-    # board.blit(rook_white, board_location_to_coordinates(7, 0))
+def update_board(position):
+    """update the board to new positions"""
     for i in range(0, 8):
         for j in range(0, 8):
             if position[i][j] != 0:
@@ -152,4 +140,19 @@ while playing:
                     board.blit(queen_black, board_location_to_coordinates(j, i))
                 if position[i][j] == BlackPiece.KING:
                     board.blit(king_black, board_location_to_coordinates(j, i))
+
+pygame.display.set_caption("Chess!")
+playing = True
+while playing:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            playing = False
+    #Make chessboard
+    create_board()
+    
+    #Create initial position
+    position = [[0 for i in range(8)] for i in range(8)]
+    initial_position(position)
+    update_board(position)
+
     pygame.display.update()
